@@ -5,7 +5,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
-export default function Navbar() {
+type NavbarProps = {
+  activePage: string;
+  setActivePage: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function Navbar({ activePage, setActivePage }: NavbarProps) {
   // ✅ Prevent hydration mismatch by only rendering buttons on client
   const [mounted, setMounted] = useState(false);
 
@@ -19,7 +24,7 @@ export default function Navbar() {
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/min.svg"
-          alt="Mind Heaven"
+          alt="Mind Haven"
           width={40}
           height={40}
           priority
@@ -33,23 +38,38 @@ export default function Navbar() {
       {/* Buttons Section (only render after mount) */}
       {mounted && (
         <div className="flex gap-3">
-        
-          <Link href="/dashboard">
-            <Button className="rounded-full bg-sky-400 hover:bg-sky-500 text-white px-5 transition">
-              Dashboard
-            </Button>
-          </Link>
-          <Link href="/faq">
-            <Button className="rounded-full bg-sky-400 hover:bg-sky-500 text-white px-5 transition">
-              FAQ
-            </Button>
-          </Link>
-          {/* ✅ New About Button */}
-          <Link href="/about">
-            <Button className="rounded-full bg-sky-400 hover:bg-sky-500 text-white px-5 transition">
-              About
-            </Button>
-          </Link>
+          <Button
+            onClick={() => setActivePage("dashboard")}
+            className={`rounded-full px-5 transition ${
+              activePage === "dashboard"
+                ? "bg-sky-600 text-white"
+                : "bg-sky-400 hover:bg-sky-500 text-white"
+            }`}
+          >
+            Dashboard
+          </Button>
+
+          <Button
+            onClick={() => setActivePage("faq")}
+            className={`rounded-full px-5 transition ${
+              activePage === "faq"
+                ? "bg-sky-600 text-white"
+                : "bg-sky-400 hover:bg-sky-500 text-white"
+            }`}
+          >
+            FAQ
+          </Button>
+
+          <Button
+            onClick={() => setActivePage("about")}
+            className={`rounded-full px-5 transition ${
+              activePage === "about"
+                ? "bg-sky-600 text-white"
+                : "bg-sky-400 hover:bg-sky-500 text-white"
+            }`}
+          >
+            About
+          </Button>
         </div>
       )}
     </header>
