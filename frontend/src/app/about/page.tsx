@@ -125,7 +125,7 @@ export default function AboutPage() {
 
         {/* Wave Shape */}
         <div className="absolute bottom-0 left-0 w-full opacity-70">
-          <img src="/min.svg" alt="Wave design" className="w-full" />
+          <img src=".svg" alt="Wave design" className="w-full" />
         </div>
       </div>
     </section>

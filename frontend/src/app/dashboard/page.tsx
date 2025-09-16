@@ -1,28 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 const statsData = [
   { 
     title: 'Mood Check-ins', 
     value: '7 Days', 
     subtitle: 'Current Streak', 
-    bgGradient: 'from-blue-400 to-blue-600' 
+    bgGradient: 'from-blue-400 to-blue-600', 
+    type: 'mood'
   },
   { 
     title: 'Resource Use', 
     value: '10', 
     subtitle: 'This Month', 
-    bgGradient: 'from-indigo-400 to-indigo-600' 
+    bgGradient: 'from-indigo-400 to-indigo-600', 
+    type: 'resources'
   },
   { 
     title: 'Next Appointment', 
     value: 'Sep 17', 
     subtitle: '10:00 am', 
-    bgGradient: 'from-purple-400 to-purple-600' 
+    bgGradient: 'from-purple-400 to-purple-600', 
+    type: 'appointment'
   },
 ];
 
@@ -56,7 +60,32 @@ const actionCards = [
   },
 ];
 
+// Dummy data
+const recentChats = [
+  { id: 1, text: "I feel anxious before exams", date: "Sep 12, 10:00 AM" },
+  { id: 2, text: "I want tips for better sleep", date: "Sep 13, 9:00 PM" },
+  { id: 3, text: "How to manage stress?", date: "Sep 14, 8:30 PM" },
+];
+
+// Added links here 👇
+const recentVideos = [
+  { id: 1, title: "Mindfulness Meditation Guide", watchedOn: "Sep 10", link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+  { id: 2, title: "Coping with Anxiety", watchedOn: "Sep 11", link: "https://www.youtube.com/watch?v=abcd1234" },
+  { id: 3, title: "Gratitude Practice", watchedOn: "Sep 13", link: "https://www.youtube.com/watch?v=wxyz5678" },
+];
+
+const appointment = {
+  next: { date: "Sep 17", time: "10:00 AM", counselor: "Dr. Rahul Mehta" },
+  meetLink: "https://meet.google.com/xyz-dummy-link", // Dummy Google Meet link
+};
+
 export default function DashboardPage() {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const toggleExpand = (type: string) => {
+    setExpanded(expanded === type ? null : type); // toggle only one section
+  };
+
   return (
     <main className="bg-gradient-to-br from-[#a3d2ff] via-[#d4eaff] to-[#ffffff] min-h-screen w-full scroll-smooth">
       {/* Top Navbar */}
@@ -96,7 +125,8 @@ export default function DashboardPage() {
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
               <Card 
-                className={`w-full h-32 bg-gradient-to-r ${stat.bgGradient} rounded-xl border-none shadow-xl`}
+                className={`w-full bg-gradient-to-r ${stat.bgGradient} rounded-xl border-none shadow-xl cursor-pointer`}
+                onClick={() => toggleExpand(stat.type)}
               >
                 <CardContent className="p-6 flex flex-col justify-center">
                   <div className="text-white text-lg font-medium">
@@ -107,6 +137,59 @@ export default function DashboardPage() {
                   <div className="text-white text-sm font-normal mt-1">{stat.subtitle}</div>
                 </CardContent>
               </Card>
+
+              {/* Expandable content */}
+              {expanded === stat.type && stat.type === "mood" && (
+                <div className="mt-2 bg-white shadow-md rounded-lg p-4">
+                  <h3 className="text-lg font-semibold mb-2">Recent Chats</h3>
+                  <ul className="space-y-2">
+                    {recentChats.map((chat) => (
+                      <li key={chat.id} className="text-sm text-gray-700 border-b pb-1">
+                        <span className="font-medium">{chat.text}</span>
+                        <div className="text-xs text-gray-500">{chat.date}</div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {expanded === stat.type && stat.type === "resources" && (
+                <div className="mt-2 bg-white shadow-md rounded-lg p-4">
+                  <h3 className="text-lg font-semibold mb-2">Recently Watched Videos</h3>
+                  <ul className="space-y-2">
+                    {recentVideos.map((video) => (
+                      <li key={video.id} className="text-sm text-gray-700 border-b pb-1">
+                        <a 
+                          href={video.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-blue-600 hover:underline font-medium"
+                        >
+                          {video.title}
+                        </a>
+                        <span className="text-xs text-gray-500 ml-2">(Watched on {video.watchedOn})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {expanded === stat.type && stat.type === "appointment" && (
+                <div className="mt-2 bg-white shadow-md rounded-lg p-4">
+                  <h3 className="text-lg font-semibold mb-2">Next Appointment</h3>
+                  <div className="text-sm text-gray-700 mb-4">
+                    <b>Date:</b> {appointment.next.date}, {appointment.next.time} with {appointment.next.counselor}
+                  </div>
+                  <Button 
+                    asChild 
+                    className="bg-green-600 hover:bg-green-700 text-white w-full"
+                  >
+                    <a href={appointment.meetLink} target="_blank" rel="noopener noreferrer">
+                      Join Counseling (Google Meet)
+                    </a>
+                  </Button>
+                </div>
+              )}
             </motion.div>
           ))}
         </section>
