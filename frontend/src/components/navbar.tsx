@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
+// ✅ Define props for Navbar
 type NavbarProps = {
   activePage: string;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
@@ -24,7 +25,7 @@ export default function Navbar({ activePage, setActivePage }: NavbarProps) {
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/min.svg"
-          alt="Mind Haven"
+          alt="Mind Heaven"
           width={40}
           height={40}
           priority
