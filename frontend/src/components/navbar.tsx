@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  // ✅ Prevent hydration mismatch by only rendering buttons on client
+  // ✅ Local state inside Navbar (no props required)
   const [mounted, setMounted] = useState(false);
+  const [activePage, setActivePage] = useState("dashboard");
 
   useEffect(() => {
     setMounted(true);
@@ -19,7 +20,7 @@ export default function Navbar() {
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/min.svg"
-          alt="Mind Heaven"
+          alt="Mind Haven"
           width={40}
           height={40}
           priority
@@ -30,23 +31,44 @@ export default function Navbar() {
         </div>
       </Link>
 
-      {/* Buttons Section (only render after mount) */}
+      {/* Buttons Section */}
       {mounted && (
         <div className="flex gap-3">
-        
           <Link href="/dashboard">
-            <Button className="rounded-full bg-sky-400 hover:bg-sky-500 text-white px-5 transition">
+            <Button
+              onClick={() => setActivePage("dashboard")}
+              className={`rounded-full px-5 transition ${
+                activePage === "dashboard"
+                  ? "bg-sky-600 text-white"
+                  : "bg-sky-400 hover:bg-sky-500 text-white"
+              }`}
+            >
               Dashboard
             </Button>
           </Link>
+
           <Link href="/faq">
-            <Button className="rounded-full bg-sky-400 hover:bg-sky-500 text-white px-5 transition">
+            <Button
+              onClick={() => setActivePage("faq")}
+              className={`rounded-full px-5 transition ${
+                activePage === "faq"
+                  ? "bg-sky-600 text-white"
+                  : "bg-sky-400 hover:bg-sky-500 text-white"
+              }`}
+            >
               FAQ
             </Button>
           </Link>
-          {/* ✅ New About Button */}
+
           <Link href="/about">
-            <Button className="rounded-full bg-sky-400 hover:bg-sky-500 text-white px-5 transition">
+            <Button
+              onClick={() => setActivePage("about")}
+              className={`rounded-full px-5 transition ${
+                activePage === "about"
+                  ? "bg-sky-600 text-white"
+                  : "bg-sky-400 hover:bg-sky-500 text-white"
+              }`}
+            >
               About
             </Button>
           </Link>
