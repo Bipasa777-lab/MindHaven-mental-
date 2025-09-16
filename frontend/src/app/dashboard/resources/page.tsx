@@ -386,8 +386,11 @@ export default function ResourceHub() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Generate a unique id (avoid collisions with non-sequential seeded ids)
+    const nextId = resources.reduce((max, item) => (item.id > max ? item.id : max), 0) + 1;
+
     const newResource: Resource = {
-      id: resources.length + 1,
+      id: nextId,
       type: "Video",
       title: `Uploaded: ${file.name}`,
       description: "Your uploaded wellness video",
@@ -440,7 +443,7 @@ export default function ResourceHub() {
         {/* Upload */}
         <label className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-xl cursor-pointer shadow-lg transition">
           <Upload className="w-5 h-5" />
-          <span>Upload Video</span>
+          <span>Upload </span>
           <input
             type="file"
             accept="video/*"
