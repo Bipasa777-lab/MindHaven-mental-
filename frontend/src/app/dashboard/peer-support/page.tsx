@@ -9,7 +9,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu } from "lucide-react";
 
 const sidebarMenuItems = [
   { label: "AI Chart Support", active: false },
@@ -30,6 +29,7 @@ const discussionItems = [
   "Dealing with exam anxiety",
   "Stress tips",
   "Healthy habits",
+  "Other", // ✅ Added new discussion part
 ];
 
 const supportNumbers = [
@@ -76,22 +76,13 @@ export default function PeerSupportPage(): JSX.Element {
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 flex flex-col font-sans">
       
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 bg-white/30 backdrop-blur-md shadow-md">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="text-black hover:bg-white/40 rounded-full transition-all duration-300"
-        >
-          <Menu className="w-8 h-8" />
-        </Button>
-
+      <header className="flex items-center justify-center px-6 py-4 bg-white/30 backdrop-blur-md shadow-md">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wide">
           Peer Support
         </h1>
       </header>
 
-      {/* Sidebar */}
+      {/* Sidebar (kept for future use if needed) */}
       <AnimatePresence>
         {sidebarOpen && (
           <motion.aside
