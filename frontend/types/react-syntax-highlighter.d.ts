@@ -1,8 +1,5 @@
 declare module "react-syntax-highlighter" {
-  export * from "react-syntax-highlighter";
-}
-
-declare module "react-syntax-highlighter/dist/esm/styles/prism" {
-  const styles: { [key: string]: any };
-  export = styles;
+  export const Prism: any;
+  export const Light: any;
+  export default any;
 }
